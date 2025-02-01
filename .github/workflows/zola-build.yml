@@ -1,0 +1,27 @@
+name: Build and Serve Zola Site
+
+on:
+  push:
+    branches:
+      - main  # Trigger the workflow on push to the main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Check out the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up Zola
+      - name: Set up Zola
+        uses: shalzz/zola-deploy-action@v0.17.0
+        with:
+          args: build
+
+      # Serve the site (optional)
+      - name: Serve Zola site
+        run: |
+          zola serve --interface 0.0.0.0 --port 8080 --base-url localhost &
+          echo "Zola site is running at http://localhost:8080"
